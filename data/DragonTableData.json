@@ -1,0 +1,623 @@
+[
+  {
+    "Level": 1,
+    "Base DVD Attack": 2363,
+    "Base DVD Defense": 1,
+    "Base Health": 10870,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 49
+  },
+  {
+    "Level": 2,
+    "Base DVD Attack": 2697,
+    "Base DVD Defense": 1.01,
+    "Base Health": 12406,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 55
+  },
+  {
+    "Level": 3,
+    "Base DVD Attack": 3078,
+    "Base DVD Defense": 1.02,
+    "Base Health": 14159,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 62
+  },
+  {
+    "Level": 4,
+    "Base DVD Attack": 3513,
+    "Base DVD Defense": 1.03,
+    "Base Health": 16160,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 70
+  },
+  {
+    "Level": 5,
+    "Base DVD Attack": 4010,
+    "Base DVD Defense": 1.04,
+    "Base Health": 18446,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 79
+  },
+  {
+    "Level": 6,
+    "Base DVD Attack": 4577,
+    "Base DVD Defense": 1.05,
+    "Base Health": 21054,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 89
+  },
+  {
+    "Level": 7,
+    "Base DVD Attack": 5224,
+    "Base DVD Defense": 1.06,
+    "Base Health": 24030,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 100
+  },
+  {
+    "Level": 8,
+    "Base DVD Attack": 5962,
+    "Base DVD Defense": 1.07,
+    "Base Health": 27425,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 113
+  },
+  {
+    "Level": 9,
+    "Base DVD Attack": 6805,
+    "Base DVD Defense": 1.08,
+    "Base Health": 31303,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 127
+  },
+  {
+    "Level": 10,
+    "Base DVD Attack": 7768,
+    "Base DVD Defense": 1.09,
+    "Base Health": 35733,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 143
+  },
+  {
+    "Level": 11,
+    "Base DVD Attack": 8866,
+    "Base DVD Defense": 1.1,
+    "Base Health": 40784,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 161
+  },
+  {
+    "Level": 12,
+    "Base DVD Attack": 10119,
+    "Base DVD Defense": 1.11,
+    "Base Health": 46547,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 182
+  },
+  {
+    "Level": 13,
+    "Base DVD Attack": 11979,
+    "Base DVD Defense": 1.12,
+    "Base Health": 55103,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 212
+  },
+  {
+    "Level": 14,
+    "Base DVD Attack": 14179,
+    "Base DVD Defense": 1.13,
+    "Base Health": 65223,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 246
+  },
+  {
+    "Level": 15,
+    "Base DVD Attack": 16784,
+    "Base DVD Defense": 1.14,
+    "Base Health": 77206,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 287
+  },
+  {
+    "Level": 16,
+    "Base DVD Attack": 19868,
+    "Base DVD Defense": 1.15,
+    "Base Health": 91393,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 334
+  },
+  {
+    "Level": 17,
+    "Base DVD Attack": 23518,
+    "Base DVD Defense": 1.16,
+    "Base Health": 108183,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 389
+  },
+  {
+    "Level": 18,
+    "Base DVD Attack": 27839,
+    "Base DVD Defense": 1.17,
+    "Base Health": 128059,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 453
+  },
+  {
+    "Level": 19,
+    "Base DVD Attack": 32954,
+    "Base DVD Defense": 1.18,
+    "Base Health": 151588,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 527
+  },
+  {
+    "Level": 20,
+    "Base DVD Attack": 39009,
+    "Base DVD Defense": 1.19,
+    "Base Health": 179441,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 614
+  },
+  {
+    "Level": 21,
+    "Base DVD Attack": 41526,
+    "Base DVD Defense": 1.2,
+    "Base Health": 191020,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 649
+  },
+  {
+    "Level": 22,
+    "Base DVD Attack": 44207,
+    "Base DVD Defense": 1.21,
+    "Base Health": 203352,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 687
+  },
+  {
+    "Level": 23,
+    "Base DVD Attack": 47060,
+    "Base DVD Defense": 1.22,
+    "Base Health": 216476,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 727
+  },
+  {
+    "Level": 24,
+    "Base DVD Attack": 50097,
+    "Base DVD Defense": 1.23,
+    "Base Health": 230446,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 769
+  },
+  {
+    "Level": 25,
+    "Base DVD Attack": 53331,
+    "Base DVD Defense": 1.24,
+    "Base Health": 245323,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 814
+  },
+  {
+    "Level": 26,
+    "Base DVD Attack": 56773,
+    "Base DVD Defense": 1.25,
+    "Base Health": 261156,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 861
+  },
+  {
+    "Level": 27,
+    "Base DVD Attack": 60438,
+    "Base DVD Defense": 1.26,
+    "Base Health": 278015,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 911
+  },
+  {
+    "Level": 28,
+    "Base DVD Attack": 64339,
+    "Base DVD Defense": 1.27,
+    "Base Health": 295959,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 964
+  },
+  {
+    "Level": 29,
+    "Base DVD Attack": 68491,
+    "Base DVD Defense": 1.28,
+    "Base Health": 315059,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.02
+  },
+  {
+    "Level": 30,
+    "Base DVD Attack": 72912,
+    "Base DVD Defense": 1.29,
+    "Base Health": 335395,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.079
+  },
+  {
+    "Level": 31,
+    "Base DVD Attack": 77618,
+    "Base DVD Defense": 1.3,
+    "Base Health": 357043,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.141
+  },
+  {
+    "Level": 32,
+    "Base DVD Attack": 82628,
+    "Base DVD Defense": 1.31,
+    "Base Health": 380089,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.208
+  },
+  {
+    "Level": 33,
+    "Base DVD Attack": 87962,
+    "Base DVD Defense": 1.32,
+    "Base Health": 404625,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.278
+  },
+  {
+    "Level": 34,
+    "Base DVD Attack": 93639,
+    "Base DVD Defense": 1.33,
+    "Base Health": 430739,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.352
+  },
+  {
+    "Level": 35,
+    "Base DVD Attack": 99683,
+    "Base DVD Defense": 1.34,
+    "Base Health": 458542,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.43
+  },
+  {
+    "Level": 36,
+    "Base DVD Attack": 106117,
+    "Base DVD Defense": 1.35,
+    "Base Health": 488138,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.513
+  },
+  {
+    "Level": 37,
+    "Base DVD Attack": 112966,
+    "Base DVD Defense": 1.36,
+    "Base Health": 519644,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.601
+  },
+  {
+    "Level": 38,
+    "Base DVD Attack": 120258,
+    "Base DVD Defense": 1.37,
+    "Base Health": 553187,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.694
+  },
+  {
+    "Level": 39,
+    "Base DVD Attack": 128020,
+    "Base DVD Defense": 1.38,
+    "Base Health": 588892,
+    "Healing Multiplier": 0.093,
+    "Healing Exponent": 0.9015,
+    "Gold": 1.792
+  },
+  {
+    "Level": 40,
+    "Base DVD Attack": 134376,
+    "Base DVD Defense": 1.39,
+    "Base Health": 618130,
+    "Healing Multiplier": 0.2046,
+    "Healing Exponent": 0.9015,
+    "Gold": 4.118
+  },
+  {
+    "Level": 41,
+    "Base DVD Attack": 141047,
+    "Base DVD Defense": 1.4,
+    "Base Health": 648816,
+    "Healing Multiplier": 0.2136,
+    "Healing Exponent": 0.9015,
+    "Gold": 4.491
+  },
+  {
+    "Level": 42,
+    "Base DVD Attack": 148050,
+    "Base DVD Defense": 1.41,
+    "Base Health": 681030,
+    "Healing Multiplier": 0.2226,
+    "Healing Exponent": 0.9015,
+    "Gold": 4.89
+  },
+  {
+    "Level": 43,
+    "Base DVD Attack": 155400,
+    "Base DVD Defense": 1.42,
+    "Base Health": 714840,
+    "Healing Multiplier": 0.2316,
+    "Healing Exponent": 0.9015,
+    "Gold": 5.314
+  },
+  {
+    "Level": 44,
+    "Base DVD Attack": 163115,
+    "Base DVD Defense": 1.43,
+    "Base Health": 750329,
+    "Healing Multiplier": 0.2406,
+    "Healing Exponent": 0.9015,
+    "Gold": 5.767
+  },
+  {
+    "Level": 45,
+    "Base DVD Attack": 171214,
+    "Base DVD Defense": 1.44,
+    "Base Health": 787584,
+    "Healing Multiplier": 0.2496,
+    "Healing Exponent": 0.9015,
+    "Gold": 6.25
+  },
+  {
+    "Level": 46,
+    "Base DVD Attack": 179714,
+    "Base DVD Defense": 1.45,
+    "Base Health": 826684,
+    "Healing Multiplier": 0.2586,
+    "Healing Exponent": 0.9015,
+    "Gold": 6.765
+  },
+  {
+    "Level": 47,
+    "Base DVD Attack": 188636,
+    "Base DVD Defense": 1.46,
+    "Base Health": 867726,
+    "Healing Multiplier": 0.2676,
+    "Healing Exponent": 0.9015,
+    "Gold": 7.313
+  },
+  {
+    "Level": 48,
+    "Base DVD Attack": 198001,
+    "Base DVD Defense": 1.47,
+    "Base Health": 910805,
+    "Healing Multiplier": 0.2766,
+    "Healing Exponent": 0.9015,
+    "Gold": 7.896
+  },
+  {
+    "Level": 49,
+    "Base DVD Attack": 207832,
+    "Base DVD Defense": 1.48,
+    "Base Health": 956027,
+    "Healing Multiplier": 0.2856,
+    "Healing Exponent": 0.9015,
+    "Gold": 8.517
+  },
+  {
+    "Level": 50,
+    "Base DVD Attack": 218150,
+    "Base DVD Defense": 1.49,
+    "Base Health": 1003490,
+    "Healing Multiplier": 0.2946,
+    "Healing Exponent": 0.9015,
+    "Gold": 9.178
+  },
+  {
+    "Level": 51,
+    "Base DVD Attack": 228980,
+    "Base DVD Defense": 1.5,
+    "Base Health": 1053308,
+    "Healing Multiplier": 0.3036,
+    "Healing Exponent": 0.9015,
+    "Gold": 9.881
+  },
+  {
+    "Level": 52,
+    "Base DVD Attack": 240349,
+    "Base DVD Defense": 1.51,
+    "Base Health": 1105605,
+    "Healing Multiplier": 0.3126,
+    "Healing Exponent": 0.9015,
+    "Gold": 10.628
+  },
+  {
+    "Level": 53,
+    "Base DVD Attack": 252281,
+    "Base DVD Defense": 1.52,
+    "Base Health": 1160493,
+    "Healing Multiplier": 0.3216,
+    "Healing Exponent": 0.9015,
+    "Gold": 11.422
+  },
+  {
+    "Level": 54,
+    "Base DVD Attack": 264807,
+    "Base DVD Defense": 1.53,
+    "Base Health": 1218112,
+    "Healing Multiplier": 0.3306,
+    "Healing Exponent": 0.9015,
+    "Gold": 12.266
+  },
+  {
+    "Level": 55,
+    "Base DVD Attack": 277954,
+    "Base DVD Defense": 1.54,
+    "Base Health": 1278588,
+    "Healing Multiplier": 0.3396,
+    "Healing Exponent": 0.9015,
+    "Gold": 13.162
+  },
+  {
+    "Level": 56,
+    "Base DVD Attack": 291753,
+    "Base DVD Defense": 1.55,
+    "Base Health": 1342064,
+    "Healing Multiplier": 0.3486,
+    "Healing Exponent": 0.9015,
+    "Gold": 14.114
+  },
+  {
+    "Level": 57,
+    "Base DVD Attack": 306238,
+    "Base DVD Defense": 1.56,
+    "Base Health": 1408695,
+    "Healing Multiplier": 0.3576,
+    "Healing Exponent": 0.9015,
+    "Gold": 15.125
+  },
+  {
+    "Level": 58,
+    "Base DVD Attack": 321442,
+    "Base DVD Defense": 1.57,
+    "Base Health": 1478633,
+    "Healing Multiplier": 0.3666,
+    "Healing Exponent": 0.9015,
+    "Gold": 16.198
+  },
+  {
+    "Level": 59,
+    "Base DVD Attack": 337401,
+    "Base DVD Defense": 1.58,
+    "Base Health": 1552045,
+    "Healing Multiplier": 0.3756,
+    "Healing Exponent": 0.9015,
+    "Gold": 17.337
+  },
+  {
+    "Level": 60,
+    "Base DVD Attack": 354152,
+    "Base DVD Defense": 1.59,
+    "Base Health": 1629099,
+    "Healing Multiplier": 0.3846,
+    "Healing Exponent": 0.9015,
+    "Gold": 18.545
+  },
+  {
+    "Level": 61,
+    "Base DVD Attack": 371735,
+    "Base DVD Defense": 1.6,
+    "Base Health": 1709981,
+    "Healing Multiplier": 0.3936,
+    "Healing Exponent": 0.9015,
+    "Gold": 19.826
+  },
+  {
+    "Level": 62,
+    "Base DVD Attack": 390190,
+    "Base DVD Defense": 1.61,
+    "Base Health": 1794874,
+    "Healing Multiplier": 0.4026,
+    "Healing Exponent": 0.9015,
+    "Gold": 21.185
+  },
+  {
+    "Level": 63,
+    "Base DVD Attack": 409562,
+    "Base DVD Defense": 1.62,
+    "Base Health": 1883985,
+    "Healing Multiplier": 0.4116,
+    "Healing Exponent": 0.9015,
+    "Gold": 22.626
+  },
+  {
+    "Level": 64,
+    "Base DVD Attack": 429896,
+    "Base DVD Defense": 1.63,
+    "Base Health": 1977522,
+    "Healing Multiplier": 0.4206,
+    "Healing Exponent": 0.9015,
+    "Gold": 24.153
+  },
+  {
+    "Level": 65,
+    "Base DVD Attack": 451239,
+    "Base DVD Defense": 1.64,
+    "Base Health": 2075699,
+    "Healing Multiplier": 0.4296,
+    "Healing Exponent": 0.9015,
+    "Gold": 25.771
+  },
+  {
+    "Level": 66,
+    "Base DVD Attack": 473642,
+    "Base DVD Defense": 1.65,
+    "Base Health": 2178753,
+    "Healing Multiplier": 0.4386,
+    "Healing Exponent": 0.9015,
+    "Gold": 27.486
+  },
+  {
+    "Level": 67,
+    "Base DVD Attack": 497158,
+    "Base DVD Defense": 1.66,
+    "Base Health": 2286927,
+    "Healing Multiplier": 0.4476,
+    "Healing Exponent": 0.9015,
+    "Gold": 29.302
+  },
+  {
+    "Level": 68,
+    "Base DVD Attack": 521840,
+    "Base DVD Defense": 1.67,
+    "Base Health": 2400464,
+    "Healing Multiplier": 0.4566,
+    "Healing Exponent": 0.9015,
+    "Gold": 31.226
+  },
+  {
+    "Level": 69,
+    "Base DVD Attack": 547748,
+    "Base DVD Defense": 1.68,
+    "Base Health": 2519641,
+    "Healing Multiplier": 0.4656,
+    "Healing Exponent": 0.9015,
+    "Gold": 33.263
+  }
+]

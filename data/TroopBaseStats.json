@@ -1,0 +1,44 @@
+{
+    "Infantry_11": {
+        "Tier": 11,
+        "Attack": 70,
+        "Defense": 73,
+        "Range": 1,
+        "Health": 82 
+    },
+    "Infantry_12": {
+        "Tier": 12,
+        "Attack": 85,
+        "Defense": 78,
+        "Range": 1,
+        "Health": 86
+    },
+    "Ranged_11": {
+        "Tier": 11,
+        "Attack": 77,
+        "Defense": 66,
+        "Range": 6,
+        "Health": 82
+    },
+    "Ranged_12": {
+        "Tier": 12,
+        "Attack": 92,
+        "Defense": 73,
+        "Range": 10,
+        "Health": 86
+    },
+    "Cavalry_11": {
+        "Tier": 11,
+        "Attack": 72,
+        "Defense": 71,
+        "Range": 1,
+        "Health": 82
+    },
+    "Cavalry_12": {
+        "Tier": 12,
+        "Attack": 87,
+        "Defense": 76,
+        "Range": 3,
+        "Health": 86
+    }
+}
