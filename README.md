@@ -15,7 +15,7 @@ A Streamlit app with multiple calculators for player planning in Game of Thrones
 ## Setup
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/felipeccalegari/GOTC_Calculator.git
 cd GOTC_Calculator
 ```
 
