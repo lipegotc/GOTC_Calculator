@@ -190,24 +190,54 @@ def compute_battle_outcome(
         att_hp_mul = 1.0 + (a.baseHealthBuff / 100.0) + (a.marcherHealthBuff / 100.0)
         att_total_hp = base_hp * att_hp_mul
         att_def_mul = 1.0 + (a.baseDefenseBuff / 100.0) + (a.marcherDefenseBuff / 100.0)
-        att_totaldef_vs_inf = att_total_hp * (base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.INFANTRY)))
-        att_totaldef_vs_cav = att_total_hp * (base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.CAVALRY)))
-        att_totaldef_vs_rng = att_total_hp * (base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.RANGED)))
+        att_def_vs_inf = base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.INFANTRY))
+        att_def_vs_cav = base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.CAVALRY))
+        att_def_vs_rng = base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.RANGED))
+        att_totaldef_vs_inf = att_total_hp * att_def_vs_inf
+        att_totaldef_vs_cav = att_total_hp * att_def_vs_cav
+        att_totaldef_vs_rng = att_total_hp * att_def_vs_rng
 
         attacker_rows.append({
             "type": ttA,
             "type_json": _TROOPTYPE_TO_JSON[ttA],
             "tier": tierA,
             "msize": int(a.msizeAtt),
+            "base_attack_buff_pp": float(a.baseAttackBuff),
+            "marcher_attack_buff_pp": float(a.marcherAttackBuff),
+            "base_defense_buff_pp": float(a.baseDefenseBuff),
+            "marcher_defense_buff_pp": float(a.marcherDefenseBuff),
+            "base_health_buff_pp": float(a.baseHealthBuff),
+            "marcher_health_buff_pp": float(a.marcherHealthBuff),
             "base_atk": base_atk,
             "base_def": base_def,
+            "base_hp": base_hp,
             "range": rngA,
+            "atk_mul": atk_mul,
+            "att_base_after_buffs": base_atk * atk_mul,
+            "att_vs_pct": {
+                "Infantry": atk_vs(a, TroopType.INFANTRY),
+                "Cavalry": atk_vs(a, TroopType.CAVALRY),
+                "Ranged": atk_vs(a, TroopType.RANGED),
+            },
+            "att_def_mul": att_def_mul,
+            "def_base_after_buffs": base_def * att_def_mul,
+            "def_vs_pct": {
+                "Infantry": att_def_vs(a, TroopType.INFANTRY),
+                "Cavalry": att_def_vs(a, TroopType.CAVALRY),
+                "Ranged": att_def_vs(a, TroopType.RANGED),
+            },
+            "hp_mul": att_hp_mul,
             "att_vs": {
                 "Infantry": att_vs_inf,
                 "Cavalry": att_vs_cav,
                 "Ranged": att_vs_rng,
             },
             "total_hp": att_total_hp,
+            "def_vs": {
+                "Infantry": att_def_vs_inf,
+                "Cavalry": att_def_vs_cav,
+                "Ranged": att_def_vs_rng,
+            },
             "totaldef_vs": {
                 "Infantry": att_totaldef_vs_inf,
                 "Cavalry": att_totaldef_vs_cav,
@@ -243,23 +273,56 @@ def compute_battle_outcome(
 
         def_mul = 1.0 + (d.baseDefenseBuff / 100.0) + (d.defenseatsopBuff / 100.0) + (d.defenderdefensebuff / 100.0)
 
-        totaldef_vs_inf = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.INFANTRY)))
-        totaldef_vs_cav = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.CAVALRY)))
-        totaldef_vs_rng = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.RANGED)))
+        def_vs_inf = base_def * def_mul * (1.0 + def_vs(d, TroopType.INFANTRY))
+        def_vs_cav = base_def * def_mul * (1.0 + def_vs(d, TroopType.CAVALRY))
+        def_vs_rng = base_def * def_mul * (1.0 + def_vs(d, TroopType.RANGED))
+        totaldef_vs_inf = total_hp * def_vs_inf
+        totaldef_vs_cav = total_hp * def_vs_cav
+        totaldef_vs_rng = total_hp * def_vs_rng
 
         defender_rows.append({
             "type": ttD,
             "type_json": _TROOPTYPE_TO_JSON[ttD],
             "tier": tierD,
             "msize": int(d.msizeDef),
+            "base_attack_buff_pp": float(d.baseAttackBuff),
+            "attack_at_sop_buff_pp": float(d.attackatsopBuff),
+            "defender_attack_buff_pp": float(d.defenderattackbuff),
+            "base_defense_buff_pp": float(d.baseDefenseBuff),
+            "defense_at_sop_buff_pp": float(d.defenseatsopBuff),
+            "defender_defense_buff_pp": float(d.defenderdefensebuff),
+            "base_health_buff_pp": float(d.baseHealthBuff),
+            "health_at_sop_buff_pp": float(d.healthatsopBuff),
+            "defender_health_buff_pp": float(d.defenderhealthbuff),
             "base_atk": base_atk,
             "base_def": base_def,
+            "base_hp": base_hp,
             "range": rngD,
+            "def_atk_mul": def_atk_mul,
+            "def_att_base_after_buffs": base_atk * def_atk_mul,
+            "att_vs_pct": {
+                "Infantry": def_att_vs(d, TroopType.INFANTRY),
+                "Cavalry": def_att_vs(d, TroopType.CAVALRY),
+                "Ranged": def_att_vs(d, TroopType.RANGED),
+            },
+            "def_mul": def_mul,
+            "def_base_after_buffs": base_def * def_mul,
+            "def_vs_pct": {
+                "Infantry": def_vs(d, TroopType.INFANTRY),
+                "Cavalry": def_vs(d, TroopType.CAVALRY),
+                "Ranged": def_vs(d, TroopType.RANGED),
+            },
+            "hp_mul": hp_mul,
             "total_hp": total_hp,
             "att_vs": {
                 "Infantry": def_att_vs_inf,
                 "Cavalry": def_att_vs_cav,
                 "Ranged": def_att_vs_rng,
+            },
+            "def_vs": {
+                "Infantry": def_vs_inf,
+                "Cavalry": def_vs_cav,
+                "Ranged": def_vs_rng,
             },
             "totaldef_vs": {
                 "Infantry": totaldef_vs_inf,
@@ -287,6 +350,7 @@ def compute_battle_outcome(
     kills_by_defender_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
     attacker_losses_by_slot = [0.0 for _ in attacker_rows]
     defender_losses_by_slot = [0.0 for _ in defender_rows]
+    pairwise_exchange_rows = []
 
     for ai, A in enumerate(attacker_rows):
         att_tt = A["type"]
@@ -297,47 +361,80 @@ def compute_battle_outcome(
             def_name = D["type_json"]
 
 
-            atk_val = A["att_vs"][def_name]  
-
-
-            def_val = D["totaldef_vs"][att_name]  
+            atk_base_vs = A["att_vs"][def_name]
+            def_base_vs = D["def_vs"][att_name]
+            def_hp = D["total_hp"]
 
             dmgA = dmg_mod(A["tier"], att_tt, def_tt)
             dmgD = dmg_mod(D["tier"], def_tt, att_tt)
-
             tmodA = tiermodifier(A["tier"], D["tier"])
             tmodD = tiermodifier(D["tier"], A["tier"])
-
             rmod = rangemodifier(A["range"], D["range"])
 
+            boosted_att_atk = atk_base_vs * dmgA * tmodA * rmod
+            boosted_def_def = def_base_vs * dmgD * tmodD
+            a_step1 = 1.0 + (A["base_attack_buff_pp"] / 100.0) + (A["marcher_attack_buff_pp"] / 100.0)
+            a_step2 = 1.0 + A["att_vs_pct"][def_name]
+            a_step3 = A["base_atk"]
+            a_step4 = dmgA
+            a_step5 = rmod
+            a_step6 = tmodA
+            boosted_att_atk_calc = boosted_att_atk
+            boosted_def_def_calc = boosted_def_def
+            def_hp_calc = def_hp
+
             killed_att_to_def = 0.0
-            if def_val > 0 and tmodD > 0 and dmgD > 0:
+            factor = 0.0
+            ratio = 0.0
+            if boosted_def_def > 0 and def_hp > 0:
                 if scenario == "solo_attack_vs_solo_reinforcement":
                     factor = (A["msize"] ** 2) / D["msize"] if D["msize"] > 0 else 0.0
                 else:
                     factor = 0.0 if attack_capacity <= 0 or defense_capacity <= 0 else (
                         (D["msize"] / (defense_capacity ** 2)) * (A["msize"] * attack_capacity)
                     )
-                ratio = (atk_val * dmgA * tmodA * rmod) / (def_val * tmodD * dmgD) if factor > 0 else 0.0
+                # killed = 4 * (BoostedAttack / (BoostedDefense * Health)) * factor
+                boosted_att_atk_calc = boosted_att_atk
+                boosted_def_def_calc = boosted_def_def
+                def_hp_calc = def_hp
+                ratio = boosted_att_atk_calc / (boosted_def_def_calc * def_hp_calc) if factor > 0 else 0.0
                 killed_att_to_def = 4.0 * ratio * factor if factor > 0 else 0.0
 
-            def_atk_val = D["att_vs"][att_name]
-            att_def_val = A["totaldef_vs"][def_name]
+            def_atk_base_vs = D["att_vs"][att_name]
+            att_def_base_vs = A["def_vs"][def_name]
+            att_hp = A["total_hp"]
             dmgA_rev = dmg_mod(D["tier"], def_tt, att_tt)
             dmgD_rev = dmg_mod(A["tier"], att_tt, def_tt)
             tmodA_rev = tiermodifier(D["tier"], A["tier"])
             tmodD_rev = tiermodifier(A["tier"], D["tier"])
             rmod_rev = rangemodifier(D["range"], A["range"])
 
+            boosted_def_atk = def_atk_base_vs * dmgA_rev * tmodA_rev * rmod_rev
+            boosted_att_def = att_def_base_vs * dmgD_rev * tmodD_rev
+            d_step1 = 1.0 + (D["base_attack_buff_pp"] / 100.0) + (D["attack_at_sop_buff_pp"] / 100.0) + (D["defender_attack_buff_pp"] / 100.0)
+            d_step2 = 1.0 + D["att_vs_pct"][att_name]
+            d_step3 = D["base_atk"]
+            d_step4 = dmgA_rev
+            d_step5 = rmod_rev
+            d_step6 = tmodA_rev
+            boosted_def_atk_calc = boosted_def_atk
+            boosted_att_def_calc = boosted_att_def
+            att_hp_calc = att_hp
+
             killed_def_to_att = 0.0
-            if att_def_val > 0 and tmodD_rev > 0 and dmgD_rev > 0:
+            factor_rev = 0.0
+            ratio_rev = 0.0
+            if boosted_att_def > 0 and att_hp > 0:
                 if scenario == "solo_attack_vs_solo_reinforcement":
                     factor_rev = (D["msize"] ** 2) / A["msize"] if A["msize"] > 0 else 0.0
                 else:
                     factor_rev = 0.0 if attack_capacity <= 0 or defense_capacity <= 0 else (
                         (A["msize"] / (attack_capacity ** 2)) * (D["msize"] * defense_capacity)
                     )
-                ratio_rev = (def_atk_val * dmgA_rev * tmodA_rev * rmod_rev) / (att_def_val * tmodD_rev * dmgD_rev) if factor_rev > 0 else 0.0
+                boosted_def_atk_calc = boosted_def_atk
+                boosted_att_def_calc = boosted_att_def
+                att_hp_calc = att_hp
+                ratio_rev = boosted_def_atk_calc / (boosted_att_def_calc * att_hp_calc) if factor_rev > 0 else 0.0
                 killed_def_to_att = 4.0 * ratio_rev * factor_rev if factor_rev > 0 else 0.0
 
             killed_matrix_att_to_def[att_name][def_name] += killed_att_to_def
@@ -348,6 +445,68 @@ def compute_battle_outcome(
             kills_by_defender_type[def_name] += killed_def_to_att
             attacker_losses_by_slot[ai] += killed_def_to_att
             defender_losses_by_slot[di] += killed_att_to_def
+            pairwise_exchange_rows.append({
+                "AttackerSlot": ai + 1,
+                "AttackerTroopType": att_name,
+                "DefenderSlot": di + 1,
+                "DefenderTroopType": def_name,
+                "DefenderLossesFromAttacker": int(killed_att_to_def),
+                "AttackerLossesFromDefender": int(killed_def_to_att),
+                "AttackerTier": int(A["tier"]),
+                "DefenderTier": int(D["tier"]),
+                "AtkBaseVsType_AtoD": float(atk_base_vs),
+                "DefBaseVsType_AtoD": float(def_base_vs),
+                "AtkFormula_AttBuffTerm_AtoD": float(1.0 + (A["base_attack_buff_pp"] / 100.0) + (A["marcher_attack_buff_pp"] / 100.0)),
+                "AtkFormula_VsTypeTerm_AtoD": float(1.0 + (A["att_vs_pct"][def_name])),
+                "AtkFormula_BaseAtk_AtoD": float(A["base_atk"]),
+                "AtkFormula_Step1_AtoD": float(a_step1),
+                "AtkFormula_Step2_AtoD": float(a_step2),
+                "AtkFormula_Step3_AtoD": float(a_step3),
+                "AtkFormula_Step4_Dmg_AtoD": float(a_step4),
+                "AtkFormula_Step5_Rng_AtoD": float(a_step5),
+                "AtkFormula_Step6_Tier_AtoD": float(a_step6),
+                "BoostedAttack_AtoD": float(boosted_att_atk),
+                "BoostedDefense_AtoD": float(boosted_def_def),
+                "Health_AtoD": float(def_hp),
+                "Denominator_AtoD": float(boosted_def_def * def_hp),
+                "BoostedAttack_AtoD_UsedInFormula": float(boosted_att_atk_calc),
+                "BoostedDefense_AtoD_UsedInFormula": float(boosted_def_def_calc),
+                "Health_AtoD_UsedInFormula": float(def_hp_calc),
+                "DamageModAtkToDef": float(dmgA),
+                "DamageModDefToAtk": float(dmgD),
+                "TierModAtkToDef": float(tmodA),
+                "TierModDefToAtk": float(tmodD),
+                "RangeModAtkToDef": float(rmod),
+                "CapacityFactorAtkToDef": float(factor),
+                "RatioAtkToDef": float(ratio),
+                "KillsFormula_AtoD": float(4.0 * ratio * factor),
+                "AtkBaseVsType_DtoA": float(def_atk_base_vs),
+                "DefBaseVsType_DtoA": float(att_def_base_vs),
+                "AtkFormula_AttBuffTerm_DtoA": float(1.0 + (D["base_attack_buff_pp"] / 100.0) + (D["attack_at_sop_buff_pp"] / 100.0) + (D["defender_attack_buff_pp"] / 100.0)),
+                "AtkFormula_VsTypeTerm_DtoA": float(1.0 + (D["att_vs_pct"][att_name])),
+                "AtkFormula_BaseAtk_DtoA": float(D["base_atk"]),
+                "AtkFormula_Step1_DtoA": float(d_step1),
+                "AtkFormula_Step2_DtoA": float(d_step2),
+                "AtkFormula_Step3_DtoA": float(d_step3),
+                "AtkFormula_Step4_Dmg_DtoA": float(d_step4),
+                "AtkFormula_Step5_Rng_DtoA": float(d_step5),
+                "AtkFormula_Step6_Tier_DtoA": float(d_step6),
+                "BoostedAttack_DtoA": float(boosted_def_atk),
+                "BoostedDefense_DtoA": float(boosted_att_def),
+                "Health_DtoA": float(att_hp),
+                "Denominator_DtoA": float(boosted_att_def * att_hp),
+                "BoostedAttack_DtoA_UsedInFormula": float(boosted_def_atk_calc),
+                "BoostedDefense_DtoA_UsedInFormula": float(boosted_att_def_calc),
+                "Health_DtoA_UsedInFormula": float(att_hp_calc),
+                "DamageModDefToAtk_Rev": float(dmgA_rev),
+                "DamageModAtkToDef_Rev": float(dmgD_rev),
+                "TierModDefToAtk_Rev": float(tmodA_rev),
+                "TierModAtkToDef_Rev": float(tmodD_rev),
+                "RangeModDefToAtk_Rev": float(rmod_rev),
+                "CapacityFactorDefToAtk": float(factor_rev),
+                "RatioDefToAtk": float(ratio_rev),
+                "KillsFormula_DtoA": float(4.0 * ratio_rev * factor_rev),
+            })
 
     total_defender_losses = sum(defender_losses_by_type.values())
     total_attacker_losses = sum(attacker_losses_by_type.values())
@@ -368,6 +527,66 @@ def compute_battle_outcome(
                 "AgainstTroopType": att_type,
                 "TroopsKilled": int(val),
             })
+
+    attacker_debug_rows = []
+    for i, r in enumerate(attacker_rows, start=1):
+        attacker_debug_rows.append({
+            "AttackerSlot": i,
+            "TroopType": r["type_json"],
+            "Tier": int(r["tier"]),
+            "MarchSize": int(r["msize"]),
+            "BaseAttack": float(r["base_atk"]),
+            "AttackMultiplier_(1+BaseAtk+MarcherAtk)": float(r["atk_mul"]),
+            "AttackAfterBuffs": float(r["att_base_after_buffs"]),
+            "AttackVsInfFactor_(1+vsInf)": float(1.0 + r["att_vs_pct"]["Infantry"]),
+            "AttackVsCavFactor_(1+vsCav)": float(1.0 + r["att_vs_pct"]["Cavalry"]),
+            "AttackVsRngFactor_(1+vsRng)": float(1.0 + r["att_vs_pct"]["Ranged"]),
+            "AttackVsInfRaw": float(r["att_vs"]["Infantry"]),
+            "AttackVsCavRaw": float(r["att_vs"]["Cavalry"]),
+            "AttackVsRngRaw": float(r["att_vs"]["Ranged"]),
+            "BaseDefense": float(r["base_def"]),
+            "DefenseMultiplier_(1+BaseDef+MarcherDef)": float(r["att_def_mul"]),
+            "DefenseAfterBuffs": float(r["def_base_after_buffs"]),
+            "DefenseVsInfFactor_(1+vsInf)": float(1.0 + r["def_vs_pct"]["Infantry"]),
+            "DefenseVsCavFactor_(1+vsCav)": float(1.0 + r["def_vs_pct"]["Cavalry"]),
+            "DefenseVsRngFactor_(1+vsRng)": float(1.0 + r["def_vs_pct"]["Ranged"]),
+            "DefenseVsInfRaw": float(r["def_vs"]["Infantry"]),
+            "DefenseVsCavRaw": float(r["def_vs"]["Cavalry"]),
+            "DefenseVsRngRaw": float(r["def_vs"]["Ranged"]),
+            "BaseHealth": float(r["base_hp"]),
+            "HealthMultiplier_(1+BaseHp+MarcherHp)": float(r["hp_mul"]),
+            "HealthRaw": float(r["total_hp"]),
+        })
+
+    defender_debug_rows = []
+    for i, r in enumerate(defender_rows, start=1):
+        defender_debug_rows.append({
+            "DefenderSlot": i,
+            "TroopType": r["type_json"],
+            "Tier": int(r["tier"]),
+            "MarchSize": int(r["msize"]),
+            "BaseAttack": float(r["base_atk"]),
+            "AttackMultiplier_(1+BaseAtk+AtkAtSop+DefenderAtk)": float(r["def_atk_mul"]),
+            "AttackAfterBuffs": float(r["def_att_base_after_buffs"]),
+            "AttackVsInfFactor_(1+vsInf)": float(1.0 + r["att_vs_pct"]["Infantry"]),
+            "AttackVsCavFactor_(1+vsCav)": float(1.0 + r["att_vs_pct"]["Cavalry"]),
+            "AttackVsRngFactor_(1+vsRng)": float(1.0 + r["att_vs_pct"]["Ranged"]),
+            "AttackVsInfRaw": float(r["att_vs"]["Infantry"]),
+            "AttackVsCavRaw": float(r["att_vs"]["Cavalry"]),
+            "AttackVsRngRaw": float(r["att_vs"]["Ranged"]),
+            "BaseDefense": float(r["base_def"]),
+            "DefenseMultiplier_(1+BaseDef+DefAtSop+DefenderDef)": float(r["def_mul"]),
+            "DefenseAfterBuffs": float(r["def_base_after_buffs"]),
+            "DefenseVsInfFactor_(1+vsInf)": float(1.0 + r["def_vs_pct"]["Infantry"]),
+            "DefenseVsCavFactor_(1+vsCav)": float(1.0 + r["def_vs_pct"]["Cavalry"]),
+            "DefenseVsRngFactor_(1+vsRng)": float(1.0 + r["def_vs_pct"]["Ranged"]),
+            "DefenseVsInfRaw": float(r["def_vs"]["Infantry"]),
+            "DefenseVsCavRaw": float(r["def_vs"]["Cavalry"]),
+            "DefenseVsRngRaw": float(r["def_vs"]["Ranged"]),
+            "BaseHealth": float(r["base_hp"]),
+            "HealthMultiplier_(1+BaseHp+HpAtSop+DefenderHp)": float(r["hp_mul"]),
+            "HealthRaw": float(r["total_hp"]),
+        })
 
     return {
         "scenario": scenario,
@@ -412,6 +631,9 @@ def compute_battle_outcome(
         "defender_losses_total": int(total_defender_losses),
         "attacker_losses_by_slot": [int(v) for v in attacker_losses_by_slot],
         "defender_losses_by_slot": [int(v) for v in defender_losses_by_slot],
+        "pairwise_exchange_rows": pairwise_exchange_rows,
+        "attacker_debug_rows": attacker_debug_rows,
+        "defender_debug_rows": defender_debug_rows,
         "killed_total": int(total_defender_losses),
         "killed_exchange_rows": killed_exchange_rows,
     }
