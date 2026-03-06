@@ -22,7 +22,7 @@ Calculators currently available:
 
 Most inputs have default values so you don't have to type out every single value, adjust as needed.
 
-This is an unofficial fan-made tool and is not affiliated with the game developers. All rights reserved to their respective owners.
+This is an unofficial fan-made tool and is not affiliated with WB Games. All rights reserved to their respective owners.
             
 Questions or suggestions? Message me on Discord (Lipeeeee).
 
