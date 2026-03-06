@@ -93,7 +93,7 @@ def calc_wall_damage(
     }
 
 
-def compute_battle_like_sheet(
+def compute_battle_outcome(
     attackers: List[attackBattleStats],
     defenders: List[defenseBattleStats],
     *,
@@ -107,9 +107,8 @@ def compute_battle_like_sheet(
       defenders: list of defender marches (usually 1 per type in full rein)
 
     Scenario behavior:
-      - fullrally_vs_fullrein: uses attackers list and defenders list as provided
-      - solo_vs_fullrein: expects attackers has exactly 1 march; defenders can be 1..N
-      - fullrally_vs_solorein: attackers can be 1..N; defenders should have exactly 1 march
+      - solo_attack_vs_solo_reinforcement: expects exactly 1 attacker and 1 defender
+      - rally_vs_multi_reinforcement: attackers and defenders can be 1..N
 
     Returns:
       - per-attacker "Att vs X" values
@@ -119,17 +118,16 @@ def compute_battle_like_sheet(
       - total killed overall
     """
     scenario = str(scenario).lower().strip()
-    allowed = {"fullrally_vs_fullrein", "solo_vs_fullrein", "fullrally_vs_solorein"}
+    allowed = {"solo_attack_vs_solo_reinforcement", "rally_vs_multi_reinforcement"}
     if scenario not in allowed:
         raise ValueError(f"scenario must be one of: {', '.join(sorted(allowed))}")
 
     if not attackers or not defenders:
         raise ValueError("attackers and defenders must be non-empty lists")
 
-    if scenario == "solo_vs_fullrein" and len(attackers) != 1:
-        raise ValueError("solo_vs_fullrein expects exactly 1 attacker march in attackers list")
-    if scenario == "fullrally_vs_solorein" and len(defenders) != 1:
-        raise ValueError("fullrally_vs_solorein expects exactly 1 defender march in defenders list")
+    if scenario == "solo_attack_vs_solo_reinforcement":
+        if len(attackers) != 1 or len(defenders) != 1:
+            raise ValueError("solo_attack_vs_solo_reinforcement expects exactly 1 attacker and 1 defender")
 
     troops = load_troopBaseData()
     mods = load_damageModifiers()
@@ -155,6 +153,28 @@ def compute_battle_like_sheet(
             return att.attvsrng / 100.0
         return att.attvscav / 100.0
 
+    def att_def_vs(att: attackBattleStats, tgt_tt: TroopType) -> float:
+        # If attacker-side defense-vs is not provided, fall back to attack-vs.
+        if tgt_tt == TroopType.INFANTRY:
+            v = att.defvsinf if att.defvsinf != 0 else att.attvsinf
+            return v / 100.0
+        if tgt_tt == TroopType.RANGED:
+            v = att.defvsrng if att.defvsrng != 0 else att.attvsrng
+            return v / 100.0
+        v = att.defvscav if att.defvscav != 0 else att.attvscav
+        return v / 100.0
+
+    def def_att_vs(defn: defenseBattleStats, tgt_tt: TroopType) -> float:
+        # If defender-side attack-vs is not provided, fall back to defense-vs.
+        if tgt_tt == TroopType.INFANTRY:
+            v = defn.attvsinf if defn.attvsinf != 0 else defn.defvsinf
+            return v / 100.0
+        if tgt_tt == TroopType.RANGED:
+            v = defn.attvsrng if defn.attvsrng != 0 else defn.defvsrng
+            return v / 100.0
+        v = defn.attvscav if defn.attvscav != 0 else defn.defvscav
+        return v / 100.0
+
     def def_vs(defn: defenseBattleStats, tgt_tt: TroopType) -> float:
         # percent points -> fraction
         if tgt_tt == TroopType.INFANTRY:
@@ -176,14 +196,23 @@ def compute_battle_like_sheet(
 
         tA = troops[keyA]
         base_atk = float(getattr(tA, "attack"))
+        base_def = float(getattr(tA, "defense"))
+        base_hp = float(getattr(tA, "health"))
         rngA = int(getattr(tA, "range"))
 
+        # Attacker offense
         atk_mul = 1.0 + (a.baseAttackBuff / 100.0) + (a.marcherAttackBuff / 100.0)
-
-        # Sheet columns: Att vs Inf/Cav/Ranged (these are "totalattack_vst" before mods)
         att_vs_inf = base_atk * atk_mul * (1.0 + atk_vs(a, TroopType.INFANTRY))
         att_vs_cav = base_atk * atk_mul * (1.0 + atk_vs(a, TroopType.CAVALRY))
         att_vs_rng = base_atk * atk_mul * (1.0 + atk_vs(a, TroopType.RANGED))
+
+        # Attacker defense/health (used when defender deals return damage)
+        att_hp_mul = 1.0 + (a.baseHealthBuff / 100.0) + (a.marcherHealthBuff / 100.0)
+        att_total_hp = base_hp * att_hp_mul
+        att_def_mul = 1.0 + (a.baseDefenseBuff / 100.0) + (a.marcherDefenseBuff / 100.0)
+        att_totaldef_vs_inf = att_total_hp * (base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.INFANTRY)))
+        att_totaldef_vs_cav = att_total_hp * (base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.CAVALRY)))
+        att_totaldef_vs_rng = att_total_hp * (base_def * att_def_mul * (1.0 + att_def_vs(a, TroopType.RANGED)))
 
         attacker_rows.append({
             "type": ttA,
@@ -191,12 +220,19 @@ def compute_battle_like_sheet(
             "tier": tierA,
             "msize": int(a.msizeAtt),
             "base_atk": base_atk,
+            "base_def": base_def,
             "range": rngA,
             "att_vs": {
                 "Infantry": att_vs_inf,
                 "Cavalry": att_vs_cav,
                 "Ranged": att_vs_rng,
-            }
+            },
+            "total_hp": att_total_hp,
+            "totaldef_vs": {
+                "Infantry": att_totaldef_vs_inf,
+                "Cavalry": att_totaldef_vs_cav,
+                "Ranged": att_totaldef_vs_rng,
+            },
         })
 
     defender_rows = []
@@ -210,18 +246,25 @@ def compute_battle_like_sheet(
             raise KeyError(f"Missing defender troop '{keyD}' in TroopBaseStats.json")
 
         tD = troops[keyD]
+        base_atk = float(getattr(tD, "attack"))
         base_def = float(getattr(tD, "defense"))
         base_hp = float(getattr(tD, "health"))
         rngD = int(getattr(tD, "range"))
+
+        # Defender offense (for return damage)
+        def_atk_mul = 1.0 + (d.baseAttackBuff / 100.0) + (d.attackatsopBuff / 100.0) + (d.defenderattackbuff / 100.0)
+        def_att_vs_inf = base_atk * def_atk_mul * (1.0 + def_att_vs(d, TroopType.INFANTRY))
+        def_att_vs_cav = base_atk * def_atk_mul * (1.0 + def_att_vs(d, TroopType.CAVALRY))
+        def_att_vs_rng = base_atk * def_atk_mul * (1.0 + def_att_vs(d, TroopType.RANGED))
 
         # Sheet: Total Health is a multiplicative boost on HP
         hp_mul = 1.0 + (d.baseHealthBuff / 100.0) + (d.healthatsopBuff / 100.0) + (d.defenderhealthbuff / 100.0)
         total_hp = base_hp * hp_mul
 
-        # Sheet: Defense boosts multiplier (no marcher here per your defender definition)
+        # Sheet: Defense boosts multiplier
         def_mul = 1.0 + (d.baseDefenseBuff / 100.0) + (d.defenseatsopBuff / 100.0) + (d.defenderdefensebuff / 100.0)
 
-        # Sheet columns: "Total Def vs X" = total_hp * (base_def * def_mul * (1+defvsX))
+        # Sheet columns: "Total Def vs X" = total_hp * (base_def * def_mul * (1 + defvsX))
         totaldef_vs_inf = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.INFANTRY)))
         totaldef_vs_cav = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.CAVALRY)))
         totaldef_vs_rng = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.RANGED)))
@@ -231,9 +274,15 @@ def compute_battle_like_sheet(
             "type_json": _TROOPTYPE_TO_JSON[ttD],
             "tier": tierD,
             "msize": int(d.msizeDef),
+            "base_atk": base_atk,
             "base_def": base_def,
             "range": rngD,
             "total_hp": total_hp,
+            "att_vs": {
+                "Infantry": def_att_vs_inf,
+                "Cavalry": def_att_vs_cav,
+                "Ranged": def_att_vs_rng,
+            },
             "totaldef_vs": {
                 "Infantry": totaldef_vs_inf,
                 "Cavalry": totaldef_vs_cav,
@@ -241,20 +290,32 @@ def compute_battle_like_sheet(
             }
         })
 
-    # --- battle matrix like your sheet ---
-    killed_matrix = {
+    attack_capacity = sum(r["msize"] for r in attacker_rows)
+    defense_capacity = sum(r["msize"] for r in defender_rows)
+
+    # --- battle matrices ---
+    killed_matrix_att_to_def = {
         "Infantry": {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
         "Cavalry":  {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
         "Ranged":   {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
     }
-    killed_by_def_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
-    killed_by_att_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
+    killed_matrix_def_to_att = {
+        "Infantry": {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
+        "Cavalry":  {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
+        "Ranged":   {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
+    }
+    defender_losses_by_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
+    attacker_losses_by_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
+    kills_by_attacker_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
+    kills_by_defender_type = {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0}
+    attacker_losses_by_slot = [0.0 for _ in attacker_rows]
+    defender_losses_by_slot = [0.0 for _ in defender_rows]
 
-    for A in attacker_rows:
+    for ai, A in enumerate(attacker_rows):
         att_tt = A["type"]
         att_name = A["type_json"]
 
-        for D in defender_rows:
+        for di, D in enumerate(defender_rows):
             def_tt = D["type"]
             def_name = D["type_json"]
 
@@ -273,20 +334,65 @@ def compute_battle_like_sheet(
 
             rmod = rangemodifier(A["range"], D["range"])
 
-            # EXACT sheet-like kill formula
-            num = (A["msize"] ** 2) * atk_val * dmgA * tmodA * rmod
-            den = (D["msize"]) * def_val * tmodD * dmgD
+            killed_att_to_def = 0.0
+            if def_val > 0 and tmodD > 0 and dmgD > 0:
+                if scenario == "solo_attack_vs_solo_reinforcement":
+                    factor = (A["msize"] ** 2) / D["msize"] if D["msize"] > 0 else 0.0
+                else:
+                    factor = 0.0 if attack_capacity <= 0 or defense_capacity <= 0 else (
+                        (D["msize"] / (defense_capacity ** 2)) * (A["msize"] * attack_capacity)
+                    )
+                ratio = (atk_val * dmgA * tmodA * rmod) / (def_val * tmodD * dmgD) if factor > 0 else 0.0
+                killed_att_to_def = 4.0 * ratio * factor if factor > 0 else 0.0
 
-            if den <= 0:
-                continue
+            # Return damage: defender kills attacker
+            def_atk_val = D["att_vs"][att_name]
+            att_def_val = A["totaldef_vs"][def_name]
+            dmgA_rev = dmg_mod(D["tier"], def_tt, att_tt)
+            dmgD_rev = dmg_mod(A["tier"], att_tt, def_tt)
+            tmodA_rev = tiermodifier(D["tier"], A["tier"])
+            tmodD_rev = tiermodifier(A["tier"], D["tier"])
+            rmod_rev = rangemodifier(D["range"], A["range"])
 
-            killed = 4.0 * (num / den)
+            killed_def_to_att = 0.0
+            if att_def_val > 0 and tmodD_rev > 0 and dmgD_rev > 0:
+                if scenario == "solo_attack_vs_solo_reinforcement":
+                    factor_rev = (D["msize"] ** 2) / A["msize"] if A["msize"] > 0 else 0.0
+                else:
+                    factor_rev = 0.0 if attack_capacity <= 0 or defense_capacity <= 0 else (
+                        (A["msize"] / (attack_capacity ** 2)) * (D["msize"] * defense_capacity)
+                    )
+                ratio_rev = (def_atk_val * dmgA_rev * tmodA_rev * rmod_rev) / (att_def_val * tmodD_rev * dmgD_rev) if factor_rev > 0 else 0.0
+                killed_def_to_att = 4.0 * ratio_rev * factor_rev if factor_rev > 0 else 0.0
 
-            killed_matrix[att_name][def_name] += killed
-            killed_by_def_type[def_name] += killed
-            killed_by_att_type[att_name] += killed
+            killed_matrix_att_to_def[att_name][def_name] += killed_att_to_def
+            killed_matrix_def_to_att[def_name][att_name] += killed_def_to_att
+            defender_losses_by_type[def_name] += killed_att_to_def
+            attacker_losses_by_type[att_name] += killed_def_to_att
+            kills_by_attacker_type[att_name] += killed_att_to_def
+            kills_by_defender_type[def_name] += killed_def_to_att
+            attacker_losses_by_slot[ai] += killed_def_to_att
+            defender_losses_by_slot[di] += killed_att_to_def
 
-    total_killed = sum(killed_by_def_type.values())
+    total_defender_losses = sum(defender_losses_by_type.values())
+    total_attacker_losses = sum(attacker_losses_by_type.values())
+    killed_exchange_rows = []
+    for att_type, row in killed_matrix_att_to_def.items():
+        for def_type, val in row.items():
+            killed_exchange_rows.append({
+                "KillerSide": "Attacker",
+                "KillerTroopType": att_type,
+                "AgainstTroopType": def_type,
+                "TroopsKilled": int(val),
+            })
+    for def_type, row in killed_matrix_def_to_att.items():
+        for att_type, val in row.items():
+            killed_exchange_rows.append({
+                "KillerSide": "Defender",
+                "KillerTroopType": def_type,
+                "AgainstTroopType": att_type,
+                "TroopsKilled": int(val),
+            })
 
     # Present like your sheet: integers for killed
     return {
@@ -316,11 +422,29 @@ def compute_battle_like_sheet(
             for r in defender_rows
         ],
 
-        "killed_matrix": {a: {d: int(v) for d, v in row.items()} for a, row in killed_matrix.items()},
-        "killed_by_defender_type": {k: int(v) for k, v in killed_by_def_type.items()},
-        "killed_by_attacker_type": {k: int(v) for k, v in killed_by_att_type.items()},
-        "killed_total": int(total_killed),
+        "killed_matrix": {a: {d: int(v) for d, v in row.items()} for a, row in killed_matrix_att_to_def.items()},
+        "killed_matrix_attacker_to_defender": {
+            a: {d: int(v) for d, v in row.items()} for a, row in killed_matrix_att_to_def.items()
+        },
+        "killed_matrix_defender_to_attacker": {
+            d: {a: int(v) for a, v in row.items()} for d, row in killed_matrix_def_to_att.items()
+        },
+        "killed_by_defender_type": {k: int(v) for k, v in defender_losses_by_type.items()},
+        "killed_by_attacker_type": {k: int(v) for k, v in kills_by_attacker_type.items()},
+        "attacker_losses_by_type": {k: int(v) for k, v in attacker_losses_by_type.items()},
+        "defender_losses_by_type": {k: int(v) for k, v in defender_losses_by_type.items()},
+        "kills_by_defender_type": {k: int(v) for k, v in kills_by_defender_type.items()},
+        "attacker_losses_total": int(total_attacker_losses),
+        "defender_losses_total": int(total_defender_losses),
+        "attacker_losses_by_slot": [int(v) for v in attacker_losses_by_slot],
+        "defender_losses_by_slot": [int(v) for v in defender_losses_by_slot],
+        "killed_total": int(total_defender_losses),
+        "killed_exchange_rows": killed_exchange_rows,
     }
+
+
+# Backwards-compatible alias for older imports/usages.
+compute_battle_like_sheet = compute_battle_outcome
 
 
 def statsCalculator(atkbuff, marcheratkbuff, atkvscav, atkvsinf, atkvsrng, defbuff, healthbuff, defatsopbuff, healthatsopbuff, defvscav, defvsinf, defvsrng, defenderdefensebuff, defenderhealthbuff):

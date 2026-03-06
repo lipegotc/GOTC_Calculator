@@ -158,9 +158,16 @@ class attackBattleStats:
     TroopTier: int = 0
     baseAttackBuff: float = 0.0
     marcherAttackBuff: float = 0.0
+    baseDefenseBuff: float = 0.0
+    marcherDefenseBuff: float = 0.0
+    baseHealthBuff: float = 0.0
+    marcherHealthBuff: float = 0.0
     attvscav: float = 0.0
     attvsinf: float = 0.0
     attvsrng: float = 0.0
+    defvscav: float = 0.0
+    defvsinf: float = 0.0
+    defvsrng: float = 0.0
     msizeAtt: int = 0
 
     @staticmethod
@@ -171,9 +178,16 @@ class attackBattleStats:
             msizeAtt=_to_int(d.get("msizeAtt"), default=1),
             baseAttackBuff=_to_percent_points(d.get("baseAttackBuff")),
             marcherAttackBuff=_to_percent_points(d.get("marcherAttackBuff")),
+            baseDefenseBuff=_to_percent_points(d.get("baseDefenseBuff")),
+            marcherDefenseBuff=_to_percent_points(d.get("marcherDefenseBuff")),
+            baseHealthBuff=_to_percent_points(d.get("baseHealthBuff")),
+            marcherHealthBuff=_to_percent_points(d.get("marcherHealthBuff")),
             attvscav=_to_percent_points(d.get("attvscav")),
             attvsinf=_to_percent_points(d.get("attvsinf")),
             attvsrng=_to_percent_points(d.get("attvsrng")),
+            defvscav=_to_percent_points(d.get("defvscav")),
+            defvsinf=_to_percent_points(d.get("defvsinf")),
+            defvsrng=_to_percent_points(d.get("defvsrng")),
         )
 
 @dataclass(frozen=True, slots=True)
@@ -181,10 +195,16 @@ class defenseBattleStats:
     TroopType: TroopType
     TroopTier: int = 0
     msizeDef: int = 0
+    baseAttackBuff: float = 0.0
+    attackatsopBuff: float = 0.0
+    defenderattackbuff: float = 0.0
     baseDefenseBuff: float = 0.0
     baseHealthBuff: float = 0.0
     defenseatsopBuff: float = 0.0
     healthatsopBuff: float = 0.0
+    attvscav: float = 0.0
+    attvsinf: float = 0.0
+    attvsrng: float = 0.0
     defvscav: float = 0.0
     defvsinf: float = 0.0
     defvsrng: float = 0.0
@@ -197,8 +217,14 @@ class defenseBattleStats:
             TroopType=TroopType(str(d.get("TroopType")).lower()),
             TroopTier=_to_int(d.get("TroopTier"), default=1),
             msizeDef=_to_int(d.get("msizeDef"), default=1),
+            baseAttackBuff=_to_percent_points(d.get("baseAttackBuff")),
+            attackatsopBuff=_to_percent_points(d.get("attackatsopBuff")),
+            defenderattackbuff=_to_percent_points(d.get("defenderattackbuff")),
             baseDefenseBuff=_to_percent_points(d.get("baseDefenseBuff")),
             baseHealthBuff=_to_percent_points(d.get("baseHealthBuff")),
+            attvscav=_to_percent_points(d.get("attvscav")),
+            attvsinf=_to_percent_points(d.get("attvsinf")),
+            attvsrng=_to_percent_points(d.get("attvsrng")),
             defvscav=_to_percent_points(d.get("defvscav")),
             defvsinf=_to_percent_points(d.get("defvsinf")),
             defvsrng=_to_percent_points(d.get("defvsrng")),
