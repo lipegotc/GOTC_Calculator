@@ -1,8 +1,16 @@
 import json
+from pathlib import Path
+
+
+_DATA_DIR = Path(__file__).resolve().parent / "data"
+
+
+def _open_data_file(filename: str):
+    return (_DATA_DIR / filename).open("r", encoding="utf-8")
 
 def load_troopBaseData():
     try:
-        with open(r'data\TroopBaseStats.json', 'r') as file:
+        with _open_data_file("TroopBaseStats.json") as file:
             raw = json.load(file)
 
         troops = {}
@@ -17,7 +25,7 @@ def load_troopBaseData():
 
 def load_dragonBaseData():
     try:
-        with open(r"data\DragonTableData.json", "r", encoding="utf-8") as file:
+        with _open_data_file("DragonTableData.json") as file:
             raw = json.load(file)
 
         # Expecting a list of dict rows
@@ -54,7 +62,7 @@ def load_dragonBaseData():
 
 def load_damageModifiers():
     try:
-        with open(r"data\DamageModifiers.json", "r", encoding="utf-8") as file:
+        with _open_data_file("DamageModifiers.json") as file:
             raw = json.load(file)
 
         mods = raw.get("Modifiers")
@@ -75,7 +83,7 @@ def load_damageModifiers():
 
 def load_siegestats():
     try:
-        with open(r"data\siegestats.json", "r", encoding="utf-8") as file:
+        with _open_data_file("siegestats.json") as file:
             raw = json.load(file)
         by_tier = {}
         for row in raw:
@@ -108,7 +116,7 @@ def load_siegestats():
 
 def load_sophealth():
     try:
-        with open(r"data\sop_wallhealth.json", "r", encoding="utf-8") as file:
+        with _open_data_file("sop_wallhealth.json") as file:
             raw = json.load(file)
         by_star = {}
         for row in raw:
@@ -135,7 +143,7 @@ def load_sophealth():
 
 def load_maxedStats():
     try:
-        with open(r"data\MaxedStats.json", "r", encoding="utf-8") as file:
+        with _open_data_file("MaxedStats.json") as file:
             raw = json.load(file)
 
         maxed = raw.get("MaxedStats")
