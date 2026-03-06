@@ -14,7 +14,7 @@ Calculators currently available:
 
 - **Dragon vs Dragon Calculator**: Estimate damage and healing costs in dragon battle.
 
-- **Stats Calculator**: similar to the old GOTC Tips PVP Calculator, the Stats Calculator calculates your "true stats" on PVP occasions and also compares to theoretical maxed stats for your troop type.
+- **Stats Calculator**: similar to the old GOTC Tips PVP Calculator, the Stats Calculator calculates your "true stats" on PVP occasions and also compares to theoretical maxed stats for your troop type (maxed stats are based on Six Stats Server and/or Turic Guides).
 
 - **Battle Simulator**: Simulate battles between attackers and defenders for 2 scenarios - Solo Attacker vs Solo Defender & Rally vs Multi Defender.
 
