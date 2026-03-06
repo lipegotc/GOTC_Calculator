@@ -13,7 +13,6 @@ def stats_submitted():
 
     if submitted:
         st.subheader("Comparison Results")
-        #st.header("Stats Comparison")
         comparison_results = statsComparator(
             troop_type_json=troopTypeAtt,
             attacker={
@@ -109,7 +108,6 @@ with st.form("stats_form"):
     with attackerStats:
         
         st.subheader("Attacker Stats")
-        #header[1].subheader("Defender Stats")
         
         baseTroopTypeBuffAtt = st.text_input("Base Troop Type Attack Buff", "0", key="attackerbasetrooptypebuff")
         baseMarcherAttackBuffAtt = st.text_input("Marcher Attack Buff", "0", key="attackermarcheratkbuff")

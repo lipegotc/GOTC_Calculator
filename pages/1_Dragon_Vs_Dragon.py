@@ -34,7 +34,6 @@ with st.form("dragon_stats_form"):
         DvdHealthAttChange = st.text_input("Dragon Health Bonus Change", "0", key="attackerdvdhealthchange")
         RegenrateAttChange = st.text_input("Dragon Regen Rate Change", "0", key="attackerdvdregenratechange")
 
-        # Create DragonInfo objects
         dragon_attacker = DragonInfo(
             level=int(LevelAtt),
             atkbuff=float(DvdAttAtt.rstrip('%')),

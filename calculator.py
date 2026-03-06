@@ -29,43 +29,42 @@ def _normalize_troop_type(tt: Any) -> TroopType:
     raise TypeError(f"troop_type must be TroopType or str, got {type(tt)}")
 
 def calc_wall_damage(
-    siege_input,  # models.siege instance
+    siege_input,  
     sop_stars: Any,
-    siege_by_tier: Mapping[int, Any],   # from load_siegestats()
-    sop_by_star: Mapping[Any, Any],     # from load_sophealth()
+    siege_by_tier: Mapping[int, Any],   
+    sop_by_star: Mapping[Any, Any],  
 ) -> dict:
 
 
     tier = siege_input.tier
     march_size = siege_input.msize
-    wdb_pp = siege_input.wdb  # percent points (20 => +20%)
+    wdb_pp = siege_input.wdb 
 
-    # ---- lookups ----
+
     if tier not in siege_by_tier:
         raise KeyError(f"Unknown siege tier: {tier}. Available: {sorted(siege_by_tier.keys())}")
 
     tier_row = siege_by_tier[tier]
-    base_damage = float(tier_row.damage)  # StatObject => "Damage" -> damage
+    base_damage = float(tier_row.damage) 
 
-    # normalize stars key to match dict keys (they came from JSON as numbers)
     stars_key = _to_float(sop_stars, default=None)
     if stars_key is None:
         raise ValueError(f"Invalid sop_stars: {sop_stars}")
 
     sop_row = sop_by_star.get(stars_key)
     if sop_row is None:
-        # sometimes dict keys could be int if JSON had "5" and python parsed as int
+
         if float(stars_key).is_integer():
             sop_row = sop_by_star.get(int(stars_key))
 
     if sop_row is None:
         raise KeyError(f"Unknown SoP stars: {sop_stars}. Available: {sorted(sop_by_star.keys())}")
 
-    sop_health = float(sop_row.wall)  # StatObject => "Wall" -> wall
+    sop_health = float(sop_row.wall)  
     if sop_health <= 0:
         raise ValueError(f"SoP wall health must be > 0. Got: {sop_health}")
 
-    # ---- calculation ----
+
     raw_damage = march_size * base_damage * (1.0 + (wdb_pp / 100.0))
     percent_damage = raw_damage / sop_health
 
@@ -85,7 +84,7 @@ def calc_wall_damage(
         },
         "results": {
             "raw_damage": raw_damage,
-            "percent_damage": percent_damage,          # fraction (0.10 = 10%)
+            "percent_damage": percent_damage,          
             "percent_damage_pct": percent_damage * 100.0,
             "remaining_wall": remaining_wall,
             "hits_to_break": hits_to_break,
@@ -99,24 +98,7 @@ def compute_battle_outcome(
     *,
     scenario: str,
 ) -> Dict:
-    """
-    Works like your Google Sheet.
 
-    Inputs:
-      attackers: list of attacker marches (usually 1 per type in full rally)
-      defenders: list of defender marches (usually 1 per type in full rein)
-
-    Scenario behavior:
-      - solo_attack_vs_solo_reinforcement: expects exactly 1 attacker and 1 defender
-      - rally_vs_multi_reinforcement: attackers and defenders can be 1..N
-
-    Returns:
-      - per-attacker "Att vs X" values
-      - per-defender "Total Health" and "Total Def vs X" values
-      - killed_matrix[att_type][def_type]
-      - totals killed per defender type (your bottom totals)
-      - total killed overall
-    """
     scenario = str(scenario).lower().strip()
     allowed = {"solo_attack_vs_solo_reinforcement", "rally_vs_multi_reinforcement"}
     if scenario not in allowed:
@@ -146,7 +128,7 @@ def compute_battle_outcome(
         return float(mods[tier_key][src_json][tgt_json])
 
     def atk_vs(att: attackBattleStats, tgt_tt: TroopType) -> float:
-        # percent points -> fraction
+
         if tgt_tt == TroopType.INFANTRY:
             return att.attvsinf / 100.0
         if tgt_tt == TroopType.RANGED:
@@ -154,7 +136,7 @@ def compute_battle_outcome(
         return att.attvscav / 100.0
 
     def att_def_vs(att: attackBattleStats, tgt_tt: TroopType) -> float:
-        # If attacker-side defense-vs is not provided, fall back to attack-vs.
+
         if tgt_tt == TroopType.INFANTRY:
             v = att.defvsinf if att.defvsinf != 0 else att.attvsinf
             return v / 100.0
@@ -165,7 +147,7 @@ def compute_battle_outcome(
         return v / 100.0
 
     def def_att_vs(defn: defenseBattleStats, tgt_tt: TroopType) -> float:
-        # If defender-side attack-vs is not provided, fall back to defense-vs.
+
         if tgt_tt == TroopType.INFANTRY:
             v = defn.attvsinf if defn.attvsinf != 0 else defn.defvsinf
             return v / 100.0
@@ -176,14 +158,13 @@ def compute_battle_outcome(
         return v / 100.0
 
     def def_vs(defn: defenseBattleStats, tgt_tt: TroopType) -> float:
-        # percent points -> fraction
+
         if tgt_tt == TroopType.INFANTRY:
             return defn.defvsinf / 100.0
         if tgt_tt == TroopType.RANGED:
             return defn.defvsrng / 100.0
         return defn.defvscav / 100.0
 
-    # --- build sheet-like per-march derived values ---
     attacker_rows = []
     for a in attackers:
         ttA = a.TroopType
@@ -206,7 +187,6 @@ def compute_battle_outcome(
         att_vs_cav = base_atk * atk_mul * (1.0 + atk_vs(a, TroopType.CAVALRY))
         att_vs_rng = base_atk * atk_mul * (1.0 + atk_vs(a, TroopType.RANGED))
 
-        # Attacker defense/health (used when defender deals return damage)
         att_hp_mul = 1.0 + (a.baseHealthBuff / 100.0) + (a.marcherHealthBuff / 100.0)
         att_total_hp = base_hp * att_hp_mul
         att_def_mul = 1.0 + (a.baseDefenseBuff / 100.0) + (a.marcherDefenseBuff / 100.0)
@@ -251,20 +231,18 @@ def compute_battle_outcome(
         base_hp = float(getattr(tD, "health"))
         rngD = int(getattr(tD, "range"))
 
-        # Defender offense (for return damage)
+        # Defender offense
         def_atk_mul = 1.0 + (d.baseAttackBuff / 100.0) + (d.attackatsopBuff / 100.0) + (d.defenderattackbuff / 100.0)
         def_att_vs_inf = base_atk * def_atk_mul * (1.0 + def_att_vs(d, TroopType.INFANTRY))
         def_att_vs_cav = base_atk * def_atk_mul * (1.0 + def_att_vs(d, TroopType.CAVALRY))
         def_att_vs_rng = base_atk * def_atk_mul * (1.0 + def_att_vs(d, TroopType.RANGED))
 
-        # Sheet: Total Health is a multiplicative boost on HP
         hp_mul = 1.0 + (d.baseHealthBuff / 100.0) + (d.healthatsopBuff / 100.0) + (d.defenderhealthbuff / 100.0)
         total_hp = base_hp * hp_mul
 
-        # Sheet: Defense boosts multiplier
+
         def_mul = 1.0 + (d.baseDefenseBuff / 100.0) + (d.defenseatsopBuff / 100.0) + (d.defenderdefensebuff / 100.0)
 
-        # Sheet columns: "Total Def vs X" = total_hp * (base_def * def_mul * (1 + defvsX))
         totaldef_vs_inf = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.INFANTRY)))
         totaldef_vs_cav = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.CAVALRY)))
         totaldef_vs_rng = total_hp * (base_def * def_mul * (1.0 + def_vs(d, TroopType.RANGED)))
@@ -293,7 +271,6 @@ def compute_battle_outcome(
     attack_capacity = sum(r["msize"] for r in attacker_rows)
     defense_capacity = sum(r["msize"] for r in defender_rows)
 
-    # --- battle matrices ---
     killed_matrix_att_to_def = {
         "Infantry": {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
         "Cavalry":  {"Infantry": 0.0, "Cavalry": 0.0, "Ranged": 0.0},
@@ -319,13 +296,12 @@ def compute_battle_outcome(
             def_tt = D["type"]
             def_name = D["type_json"]
 
-            # attacker selects correct "Att vs <defender type>"
-            atk_val = A["att_vs"][def_name]  # sheet "Att vs X"
 
-            # defender selects correct "Total Def vs <attacker type>"
-            def_val = D["totaldef_vs"][att_name]  # sheet "Total Def vs X"
+            atk_val = A["att_vs"][def_name]  
 
-            # modifiers
+
+            def_val = D["totaldef_vs"][att_name]  
+
             dmgA = dmg_mod(A["tier"], att_tt, def_tt)
             dmgD = dmg_mod(D["tier"], def_tt, att_tt)
 
@@ -345,7 +321,6 @@ def compute_battle_outcome(
                 ratio = (atk_val * dmgA * tmodA * rmod) / (def_val * tmodD * dmgD) if factor > 0 else 0.0
                 killed_att_to_def = 4.0 * ratio * factor if factor > 0 else 0.0
 
-            # Return damage: defender kills attacker
             def_atk_val = D["att_vs"][att_name]
             att_def_val = A["totaldef_vs"][def_name]
             dmgA_rev = dmg_mod(D["tier"], def_tt, att_tt)
@@ -394,7 +369,6 @@ def compute_battle_outcome(
                 "TroopsKilled": int(val),
             })
 
-    # Present like your sheet: integers for killed
     return {
         "scenario": scenario,
 
@@ -443,7 +417,6 @@ def compute_battle_outcome(
     }
 
 
-# Backwards-compatible alias for older imports/usages.
 compute_battle_like_sheet = compute_battle_outcome
 
 
@@ -470,20 +443,7 @@ def statsCalculator(atkbuff, marcheratkbuff, atkvscav, atkvsinf, atkvsrng, defbu
     }
 
 def statsComparator(troop_type_json: str, attacker: dict, defender: dict) -> dict:
-    """
-    One player: attacker preset + defender preset, compared to MaxedStats.
 
-    troop_type_json: "Infantry" | "Ranged" | "Cavalry"
-
-    attacker dict expected keys (percent points):
-      baseatkbuff, marcheratkbuff, atkvscav, atkvsinf, atkvsrng
-
-    defender dict expected keys (percent points):
-      basedefbuff, basehealthbuff, defatsopbuff, healthatsopbuff,
-      defvscav, defvsinf, defvsrng, defdefensebuff, defhealthbuff
-
-    Missing keys default to 0.0.
-    """
 
     def g(d: dict, key: str) -> float:
         return float(d.get(key, 0.0))
@@ -493,7 +453,6 @@ def statsComparator(troop_type_json: str, attacker: dict, defender: dict) -> dic
             return "0.00%"
         return f"{((x - ref) / ref) * 100:.2f}%"
 
-    # ---- Load maxed ----
     maxed_all = load_maxedStats()
     if not maxed_all:
         raise RuntimeError("MaxedStats.json did not load (empty dict).")
@@ -507,7 +466,6 @@ def statsComparator(troop_type_json: str, attacker: dict, defender: dict) -> dic
     if not isinstance(max_atk, dict) or not isinstance(max_def, dict):
         raise TypeError("MaxedStats structure unexpected: expected Attack/Defense dict blocks.")
 
-    # ---- Player attacker totals (defender-only fields = 0) ----
     attacker_totals = statsCalculator(
         g(attacker, "baseatkbuff"),
         g(attacker, "marcheratkbuff"),
@@ -567,7 +525,6 @@ def statsComparator(troop_type_json: str, attacker: dict, defender: dict) -> dic
         float(max_def.get("DefenderHealth", 0.0)),
     )
 
-    # ---- Compare only the relevant metrics for each preset ----
     # Attacker preset compares attack totals only
     attacker_keys = [
         "Total Attack vs Cavalry",
@@ -616,18 +573,6 @@ def statsComparator(troop_type_json: str, attacker: dict, defender: dict) -> dic
 
 
 def dvdcalc_duel(attacker: DragonInfo, defender: DragonInfo):
-    """
-    Dragon duel calculation: attacker -> defender
-
-    Rules:
-    - Buffs are percentage points (e.g., 1500 = 1500%)
-    - regenrate is flat
-    - Healing cost is based on the DEFENDER (the one taking damage)
-    - Output is presentation-ready:
-        * raw damage: integer part
-        * percent damage: 'X.XX%'
-        * gold values: integer part
-    """
 
     dragons = load_dragonBaseData()
 
@@ -639,16 +584,13 @@ def dvdcalc_duel(attacker: DragonInfo, defender: DragonInfo):
     A = dragons[attacker.level]
     B = dragons[defender.level]
 
-    # Apply buffs (percentage points → multipliers)
     A_atk_total = A.base_dvd_attack * (1.0 + attacker.atkbuff / 100.0)
     B_def_total = B.base_dvd_defense * (1.0 + defender.defbuff / 100.0)
     B_hp_total  = B.base_health      * (1.0 + defender.healthbuff / 100.0)
 
-    # Core damage math (A -> B)
     raw_dmg = A_atk_total / B_def_total
     percent_dmg = raw_dmg / B_hp_total
 
-    # Healing economics (defender side)
     heal_mult = B.healing_multiplier
     heal_exp  = B.healing_exponent
 
@@ -657,9 +599,8 @@ def dvdcalc_duel(attacker: DragonInfo, defender: DragonInfo):
 
     total_gold_full = heal_mult * (B_hp_total / defender.regenrate) ** heal_exp
 
-    # === PRESENTATION NORMALIZATION ===
     return {
-        "raw_damage": int(raw_dmg),                          # truncate
-        "percent_damage": f"{percent_dmg * 100:.2f}%",      # formatted %
-        "total_gold": int(total_gold_full),                  # truncate
+        "raw_damage": int(raw_dmg),                          
+        "percent_damage": f"{percent_dmg * 100:.2f}%",      
+        "total_gold": int(total_gold_full),                  
     }

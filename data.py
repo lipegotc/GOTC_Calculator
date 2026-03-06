@@ -33,7 +33,6 @@ def load_dragonBaseData():
             if lvl is None:
                 continue
 
-            # normalize level key to int
             try:
                 lvl = int(lvl)
             except (ValueError, TypeError):
@@ -87,7 +86,6 @@ def load_siegestats():
             if tier is None:
                 continue
 
-            # normalize level key to int
             try:
                 tier = int(tier)
             except (ValueError, TypeError):
@@ -164,7 +162,6 @@ class StatObject:
     def __init__(self, d):
         for k, v in d.items():
             key = k.lower().replace(" ", "_")
-            # best-effort numeric coercion
             if isinstance(v, str):
                 try:
                     v2 = float(v)

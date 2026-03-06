@@ -19,9 +19,7 @@ This simulator allows you to simulate battles between attackers and defenders in
 Keep in mind the results are **estimations** and not the exact values you would get in game due to extra hidden mechanics.
 """)
 st.caption("Decimal standard: use a dot (.) for decimal values (example: 1317.48).")
-# =========================
-# Helpers (minimal additions)
-# =========================
+
 
 TT_MAP = {
     "Infantry": TroopType.INFANTRY,
@@ -251,10 +249,6 @@ def _render_result(res: dict):
     st.subheader("Totals")
     st.dataframe(df_totals, use_container_width=True)
 
-
-# =========================
-# UI Scenarios
-# =========================
 
 battle_formats = [
     "Solo Attack vs Solo Reinforcement",
@@ -598,10 +592,6 @@ def battle_rally_vs_multi():
         res["report_mode"] = report_mode
         _render_result(res)
 
-
-# =========================
-# Router
-# =========================
 
 if choice == battle_formats[0]:
     battle_solo_vs_solo()

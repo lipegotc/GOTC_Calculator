@@ -1,12 +1,8 @@
-# models.py
 from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Mapping
-
-
-
 
 class TroopType(str, Enum):
     INFANTRY = "inf"
@@ -39,14 +35,7 @@ def _to_float(x: Any, *, default: float = 0.0) -> float:
 
 
 def _to_percent_points(x: Any, *, default: float = 0.0) -> float:
-    """
-    Always returns percentage points.
-    Examples:
-      50      -> 50.0
-      "50"    -> 50.0
-      "50%"   -> 50.0
-      0.5     -> 0.5   (still treated as 0.5 percentage points, not 50%)
-    """
+
     if x is None:
         return default
     if isinstance(x, str):
@@ -69,7 +58,6 @@ class PlayerInfo:
             raise ValueError("role must be 'attacker' or 'defender'")
         object.__setattr__(self, "role", r)
 
-    # Shared (both roles can have these vs-type buffs)
     atkvscav: float = 0.0
     atkvsinf: float = 0.0
     atkvsrng: float = 0.0

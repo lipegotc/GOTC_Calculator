@@ -54,7 +54,6 @@ with st.form("wdb_form"):
     submitted = st.form_submit_button("Calculate Wall Damage")
 
 if submitted:
-    # Build siege model (input normalization happens here)
     siege_obj = siege.from_dict({
         "tier": siegeTier,
         "msize": msize,
@@ -68,7 +67,6 @@ if submitted:
         sop_by_star=sop_by_star,
     )
 
-    # Build the requested DataFrame
     df = pd.DataFrame([{
         "SOP Star": result["inputs"]["sop_stars"],
         "Player Tier": result["inputs"]["tier"],
