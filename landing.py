@@ -5,7 +5,7 @@ st.set_page_config(
 
 st.write("# Welcome to the GOTC Calculators page!")
 
-st.sidebar.success("Select a calculator above.")
+st.sidebar.success("Select a calculator.")
 
 st.markdown("""
 This page hosts various calculators to help you optimize your gameplay in GOTC. Select a calculator available from the sidebar.
