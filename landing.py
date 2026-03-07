@@ -20,7 +20,7 @@ Calculators currently available:
 
 - **Wall Damage Calculator**: Estimate total damage you can do vs a SOP's wall.
 
-Most inputs have default values so you don't have to type out every single value, adjust as needed.
+Most inputs have default values so you don't have to type out every single value, adjust as needed. This tool will be updated on a monthly basis when new stuff are released.
 
 This is an unofficial fan-made tool and is not affiliated with WB Games. All rights reserved to their respective owners.
             
