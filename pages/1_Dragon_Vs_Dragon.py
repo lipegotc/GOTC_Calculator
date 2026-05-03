@@ -34,8 +34,8 @@ with st.form("dragon_stats_form"):
     with dragonAttacker:
         st.header("Attacker's Dragon Stats")
         LevelAtt = st.text_input("Dragon Level", "69", key="attackerlvl")
-        DvdAttAtt = st.text_input("Dragon vs Dragon Attack", "1710", key="attackerdvdatt")
-        DvdDefAtt = st.text_input("Dragon Defense (LOWEST NUMBER)", "300", key="attackerdvddef")
+        DvdAttAtt = st.text_input("Dragon vs Dragon Attack", "1790", key="attackerdvdatt")
+        DvdDefAtt = st.text_input("Dragon Defense (LOWEST NUMBER)", "600", key="attackerdvddef")
         DvdHealthAtt = st.text_input("Dragon Health Bonus", "190", key="attackerdvdhealth")
         RegenrateAtt = st.text_input("Dragon Regen Rate", "15", key="attackerdvdregenrate")
 
