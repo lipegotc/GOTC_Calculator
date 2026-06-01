@@ -2,10 +2,10 @@
     "MaxedStats": {
         "Infantry": {
             "Attack": {
-                "Attack": 1479.20,
-                "MarcherAttack": 7428.53,
-                "vsCav": 1723.39,
-                "vsInf": 1294.84,
+                "Attack": 1532.81,
+                "MarcherAttack": 7740.41,
+                "vsCav": 1858.27,
+                "vsInf": 1173.01,
                 "vsRanged": 346.15
             },
             "Defense": {
@@ -22,11 +22,11 @@
         },
         "Ranged": {
             "Attack": {
-                "Attack": 1379.45,
-                "MarcherAttack": 7507.75,
+                "Attack": 1433.05,
+                "MarcherAttack": 7799.32,
                 "vsCav": 378.17,
-                "vsInf": 1707.8,
-                "vsRanged": 1483.16
+                "vsInf": 1842.68,
+                "vsRanged": 1422.25
             },
             "Defense": {
                 "Defense": 1100.46,
@@ -42,21 +42,21 @@
         },
         "Cavalry": {
             "Attack": {
-                "Attack": 1388.12,
-                "MarcherAttack": 7341.58,
-                "vsCav": 1620.69,
+                "Attack": 1441.73,
+                "MarcherAttack": 7633.15,
+                "vsCav": 1498.86,
                 "vsInf": 427.43,
-                "vsRanged": 1569.36
+                "vsRanged": 1704.24
             },
             "Defense": {
                 "Defense": 1051.49,
                 "Health": 512.88,
-                "DefenseAtSop": 2767.84,
-                "HealthAtSop": 2772.53,
+                "DefenseAtSop": 2853.52,
+                "HealthAtSop": 2726.02,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 389.56,
-                "vsCav": 670.56,
-                "vsInf": 1006.71,
+                "vsCav": 626.39,
+                "vsInf": 1055.66,
                 "vsRanged": 770.96
             }
         }
