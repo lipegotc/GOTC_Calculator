@@ -3,16 +3,16 @@
         "Infantry": {
             "Attack": {
                 "Attack": 1532.81,
-                "MarcherAttack": 7740.41,
-                "vsCav": 1858.27,
-                "vsInf": 1173.01,
+                "MarcherAttack": 7862.36,
+                "vsCav": 1809.31,
+                "vsInf": 1221.97,
                 "vsRanged": 346.15
             },
             "Defense": {
                 "Defense": 1098.01,
                 "Health": 337.45,
                 "DefenseAtSop": 3063.97,
-                "HealthAtSop": 2718.48,
+                "HealthAtSop": 2763.48,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 440.97,
                 "vsCav": 918.46,
@@ -23,7 +23,7 @@
         "Ranged": {
             "Attack": {
                 "Attack": 1433.05,
-                "MarcherAttack": 7799.32,
+                "MarcherAttack": 7911.47,
                 "vsCav": 378.17,
                 "vsInf": 1842.68,
                 "vsRanged": 1422.25
@@ -31,19 +31,19 @@
             "Defense": {
                 "Defense": 1100.46,
                 "Health": 512.88,
-                "DefenseAtSop": 2921.26,
-                "HealthAtSop": 2685.82,
+                "DefenseAtSop": 2967.77,
+                "HealthAtSop": 2744.52,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 431.79,
                 "vsCav": 697.02,
                 "vsInf": 917.43,
-                "vsRanged": 551.11
+                "vsRanged": 554.17
             }
         },
         "Cavalry": {
             "Attack": {
                 "Attack": 1441.73,
-                "MarcherAttack": 7633.15,
+                "MarcherAttack": 7745.30,
                 "vsCav": 1498.86,
                 "vsInf": 427.43,
                 "vsRanged": 1704.24
@@ -52,7 +52,7 @@
                 "Defense": 1051.49,
                 "Health": 512.88,
                 "DefenseAtSop": 2853.52,
-                "HealthAtSop": 2726.02,
+                "HealthAtSop": 2771.02,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 389.56,
                 "vsCav": 626.39,
