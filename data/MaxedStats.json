@@ -2,17 +2,17 @@
     "MaxedStats": {
         "Infantry": {
             "Attack": {
-                "Attack": 1532.81,
-                "MarcherAttack": 7999.93,
-                "vsCav": 1809.31,
-                "vsInf": 1221.97,
+                "Attack": 2466.73,
+                "MarcherAttack": 11034.15,
+                "vsCav": 2130.96,
+                "vsInf": 1364.66,
                 "vsRanged": 346.15
             },
             "Defense": {
-                "Defense": 1098.01,
-                "Health": 337.45,
-                "DefenseAtSop": 3063.97,
-                "HealthAtSop": 2779.49,
+                "Defense": 1493.01,
+                "Health": 432.45,
+                "DefenseAtSop": 3695.25,
+                "HealthAtSop": 3079.49,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 440.97,
                 "vsCav": 918.46,
@@ -22,17 +22,17 @@
         },
         "Ranged": {
             "Attack": {
-                "Attack": 1433.05,
-                "MarcherAttack": 8126.15,
+                "Attack": 2133.05,
+                "MarcherAttack": 9701.15,
                 "vsCav": 378.17,
                 "vsInf": 1796.78,
                 "vsRanged": 1483.45
             },
             "Defense": {
-                "Defense": 1100.46,
-                "Health": 512.88,
-                "DefenseAtSop": 2967.77,
-                "HealthAtSop": 2760.53,
+                "Defense": 1495.46,
+                "Health": 607.88,
+                "DefenseAtSop": 3517.77,
+                "HealthAtSop": 3060.53,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 431.79,
                 "vsCav": 697.02,
@@ -42,8 +42,8 @@
         },
         "Cavalry": {
             "Attack": {
-                "Attack": 1700.01,
-                "MarcherAttack": 9405.74,
+                "Attack": 2400.01,
+                "MarcherAttack": 10980.74,
                 "vsCav": 1592.82,
                 "vsInf": 427.43,
                 "vsRanged": 2050.24

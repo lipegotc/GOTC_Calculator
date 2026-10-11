@@ -34,7 +34,7 @@ with st.form("dragon_stats_form"):
     with dragonAttacker:
         st.header("Attacker's Dragon Stats")
         LevelAtt = st.text_input("Dragon Level", "69", key="attackerlvl")
-        DvdAttAtt = st.text_input("Dragon vs Dragon Attack", "1985", key="attackerdvdatt")
+        DvdAttAtt = st.text_input("Dragon vs Dragon Attack", "2236", key="attackerdvdatt")
         DvdDefAtt = st.text_input("Dragon Defense (LOWEST NUMBER)", "600", key="attackerdvddef")
         DvdHealthAtt = st.text_input("Dragon Health Bonus", "190", key="attackerdvdhealth")
         RegenrateAtt = st.text_input("Dragon Regen Rate", "15", key="attackerdvdregenrate")
@@ -50,7 +50,7 @@ with st.form("dragon_stats_form"):
         st.header("Defender's Dragon Stats")
         LevelDef = st.text_input("Dragon Level", "69", key="defenderlvl")
         DvdAttDef = st.text_input("Dragon vs Dragon Attack", "600", key="defenderdvdatt")
-        DvdDefDef = st.text_input("Dragon Defense (LOWEST NUMBER)", "1232", key="defenderdvddef")
+        DvdDefDef = st.text_input("Dragon Defense (LOWEST NUMBER)", "1383", key="defenderdvddef")
         DvdHealthDef = st.text_input("Dragon Health Bonus", "367", key="defenderdvdhealth")
         RegenrateDef = st.text_input("Dragon Regen Rate", "15", key="defenderdvdregenrate")
 
