@@ -8,7 +8,6 @@ st.set_page_config(page_title="Arena Calculator")
 st.header("Arena Damage Calculator")
 st.info("The Arena Calculator is still under testing and will be updated soon.")
 st.write("Estimate damage against each Arena weakness for a T12 Infantry or Cavalry march.")
-st.caption("Fit to 18 T12 Arena results.")
 
 def attack_buff(label: str, key: str) -> float:
     return st.number_input(label, value=0.0, step=1.0, format="%.3f", key=key)
