@@ -2,10 +2,10 @@
     "MaxedStats": {
         "Infantry": {
             "Attack": {
-                "Attack": 2466.73,
-                "MarcherAttack": 11034.15,
-                "vsCav": 2130.96,
-                "vsInf": 1364.66,
+                "Attack": 2446.17,
+                "MarcherAttack": 11218.08,
+                "vsCav": 2130.95,
+                "vsInf": 1413.62,
                 "vsRanged": 346.15
             },
             "Defense": {
@@ -22,16 +22,16 @@
         },
         "Ranged": {
             "Attack": {
-                "Attack": 2133.05,
-                "MarcherAttack": 9701.15,
+                "Attack": 2378.37,
+                "MarcherAttack": 11205.78,
                 "vsCav": 378.17,
-                "vsInf": 1796.78,
-                "vsRanged": 1483.45
+                "vsInf": 2089.18,
+                "vsRanged": 1523.80
             },
             "Defense": {
                 "Defense": 1495.46,
                 "Health": 607.88,
-                "DefenseAtSop": 3517.77,
+                "DefenseAtSop": 3599.05,
                 "HealthAtSop": 3060.53,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 431.79,
@@ -42,17 +42,17 @@
         },
         "Cavalry": {
             "Attack": {
-                "Attack": 2400.01,
-                "MarcherAttack": 10980.74,
+                "Attack": 2448.00,
+                "MarcherAttack": 11072.05,
                 "vsCav": 1592.82,
                 "vsInf": 427.43,
-                "vsRanged": 2050.24
+                "vsRanged": 2111.44
             },
             "Defense": {
-                "Defense": 1051.49,
-                "Health": 512.88,
-                "DefenseAtSop": 2917.05,
-                "HealthAtSop": 2831.09,
+                "Defense": 1446.49,
+                "Health": 607.88,
+                "DefenseAtSop": 3467.05,
+                "HealthAtSop": 3131.09,
                 "DefenderDefense": 238.28,
                 "DefenderHealth": 389.56,
                 "vsCav": 675.35,

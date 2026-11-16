@@ -794,6 +794,87 @@ def statsComparator(troop_type_json: str, attacker: dict, defender: dict) -> dic
     }
 
 
+def _arena_troop_stats(troop_type: TroopType, troop_tier: int):
+    if troop_type not in (TroopType.INFANTRY, TroopType.CAVALRY):
+        raise ValueError("The Arena calculator supports Infantry and Cavalry.")
+    if troop_tier not in (11, 12):
+        raise ValueError("Choose troop tier 11 or 12.")
+    troop_key = f"{_TROOPTYPE_TO_TROOPKEY_PREFIX[troop_type]}_{troop_tier}"
+    troop = load_troopBaseData().get(troop_key)
+    if troop is None:
+        raise ValueError(f"Base stats for {troop_key} are missing.")
+    return troop
+
+
+def calc_arena_troop_attack(
+    troop_type: TroopType,
+    troop_type_attack: float,
+    dragon_troop_type_attack: float,
+    troop_attack_in_arena: float,
+    troop_type_attack_in_arena: float,
+    *,
+    troop_tier: int = 12,
+) -> float:
+    """Calculate effective per-troop attack from additive percentage-point buffs."""
+    troop = _arena_troop_stats(troop_type, troop_tier)
+    total_buff = (
+        troop_type_attack
+        + dragon_troop_type_attack
+        + troop_attack_in_arena
+        + troop_type_attack_in_arena
+    )
+    return troop.attack * (1.0 + total_buff / 100.0)
+
+
+def calc_arena_damage(
+    troop_type: TroopType,
+    march_size: int,
+    troop_attack: float,
+    dragon_attack: float = 0.0,
+    *,
+    troop_tier: int = 12,
+) -> dict[TroopType, int]:
+    """Estimate Arena damage using the T12 fit and project it for T11."""
+    troop = _arena_troop_stats(troop_type, troop_tier)
+    weights_by_troop = {
+        TroopType.INFANTRY: (13 / 12, 3 / 4, 1),
+        TroopType.CAVALRY: (5 / 6, 13 / 12, 0.9),
+    }
+    if march_size <= 0:
+        raise ValueError("March size must be positive.")
+    if any(not math.isfinite(attack) or attack < 0 for attack in (troop_attack, dragon_attack)):
+        raise ValueError("Total attack values must be finite and nonnegative.")
+
+    calibration = 1.0
+    if troop_type == TroopType.INFANTRY:
+        calibration = 1.00029654695664 if dragon_attack > 0 else 0.99992495433
+
+    arena_tier = 10
+    arena_range = 5
+    dragon_range = 1
+    range_adjustment = (troop.range + dragon_range - 2 * arena_range) / 100.0
+    reverse_tier_adjustment = (arena_tier - troop_tier) / 100.0
+    # Match the precision of the factors published for the fitted T12 profiles.
+    troop_factor = round(
+        (1 + range_adjustment) * (1 - range_adjustment) / (1 + reverse_tier_adjustment),
+        9,
+    )
+    dragon_adjustment = round(2 * range_adjustment + reverse_tier_adjustment, 2)
+
+    # Empirical coefficients from Calcular perdas na Arena. See docs/PROJECT_CONTEXT.md.
+    scale_per_health = 0.987236527570224 / 1000
+    troop_term = march_size**2 * troop_attack * calibration * troop_factor
+    dragon_term = march_size * dragon_attack
+    weaknesses = (TroopType.INFANTRY, TroopType.RANGED, TroopType.CAVALRY)
+    return {
+        weakness: math.floor(
+            scale_per_health * (troop_term * weight + dragon_term * (weight + dragon_adjustment))
+            + 0.5
+        )
+        for weakness, weight in zip(weaknesses, weights_by_troop[troop_type])
+    }
+
+
 def dvdcalc_duel(attacker: DragonInfo, defender: DragonInfo):
 
     dragons = load_dragonBaseData()

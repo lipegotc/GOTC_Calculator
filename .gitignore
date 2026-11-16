@@ -1,0 +1,14 @@
+# Local project notes
+/docs/
+AGENTS.md
+
+# Python caches and local environment
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+
+# Local settings
+/.streamlit/secrets.toml
+/.codex/
