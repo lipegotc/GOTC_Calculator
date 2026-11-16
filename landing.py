@@ -20,7 +20,7 @@ Calculators currently available:
 
 - **Wall Damage Calculator**: Estimate total damage you can do vs a SOP's wall.
 
-- **Arena Calculator**: Estimate damage to each Arena weakness for T11 and T12 Infantry and Cavalry.
+- **Arena Calculator**: Estimate damage to each Arena weakness for T12 Infantry and Cavalry. *The Arena Calculator is still under testing and will be updated soon.*
 
 Most inputs have default values so you don't have to type out every single value, adjust as needed. This tool will be updated on a monthly basis when new stuff are released.
 

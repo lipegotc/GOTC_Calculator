@@ -6,8 +6,9 @@ from models import TroopType
 
 st.set_page_config(page_title="Arena Calculator")
 st.header("Arena Damage Calculator")
-st.write("Estimate damage against each Arena weakness for an Infantry or Cavalry march.")
-st.caption("Fit to 18 T12 results. T11 estimates use the same model with T11 stats.")
+st.info("The Arena Calculator is still under testing and will be updated soon.")
+st.write("Estimate damage against each Arena weakness for a T12 Infantry or Cavalry march.")
+st.caption("Fit to 18 T12 Arena results.")
 
 def attack_buff(label: str, key: str) -> float:
     return st.number_input(label, value=0.0, step=1.0, format="%.3f", key=key)
@@ -22,7 +23,8 @@ with st.container(border=True):
     troop_type = st.selectbox(
         "Attacking troop", tuple(troop_names), format_func=troop_names.__getitem__
     )
-    troop_tier = st.selectbox("Troop tier", (11, 12), index=1)
+    # Re-enable the troop tier selector after validating T11 against more Arena reports.
+    troop_tier = 12
     march_size = st.number_input("March size", min_value=1, step=1, value=100_000)
 
 troop_attack_label = f"{troop_names[troop_type]} Attack"
